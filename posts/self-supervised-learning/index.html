@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Gradient Equivalence in Siamese Self-Supervised Learning &middot; Matthieu Lin</title>
+
+		
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		
+		<link rel="icon" href="favicon.ico" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Matthieu Lin" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					
+						<h2 class="nav-title">Matthieu Lin</h2>
+					
+				</a>
+				<ul>
+    
+    
+        <li>
+            <a href="/about/">
+                
+                <span>About</span>
+                
+            </a>
+        </li>
+    
+        <li>
+            <a href="/posts/">
+                
+                <span>Posts</span>
+                
+            </a>
+        </li>
+    
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Matthieu Lin
+        <br>
+        <span>on&nbsp;</span><time datetime="2022-01-03 00:00:00 &#43;0000 UTC">January 3, 2022</time>
+</div>
+
+		<h1 class="post-title">Gradient Equivalence in Siamese Self-Supervised Learning</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>Following <a href="https://arxiv.org/abs/2112.05141">[1]</a>, we derive the gradient of different siamese self-supervised learning methods and show that although these methods appear to be quite different, they have similar gradient formulas. In particular, the gradient consists of three terms:</p>
+<ol>
+<li>A positive gradient, i.e., the representation of another augmented view from the same image, pulls positive samples together.</li>
+<li>A negative gradient, i.e., a weighted combination of the representations from different images, pushes negative samples apart.</li>
+<li>A balancing factor weights the two terms.</li>
+</ol>
+<p>Under this assumption, <a href="https://arxiv.org/abs/2112.05141">[1]</a> empirically shows that these methods' performances are similar, and only the momentum encoder dramatically improves the final performance.</p>
+<h2 id="1-uintroductionu">1. <!-- raw HTML omitted -->Introduction<!-- raw HTML omitted --></h2>
+<h5 id="11-what-is-self-in-self-supervised-learning">1.1 What is &ldquo;Self&rdquo; in Self-Supervised Learning?</h5>
+<p>The world <em>self</em> refers to the ability to generate labels from the data by leveraging the underlying structure in the data. For instance, it could be predicting a missing word in a sentence. Because of the natural structure of human language, solving this task requires a high-level understanding of the sentence. From this, we hope that our model extracts a generic representation to solve the task.</p>
+<h5 id="12-what-is-siamese-in-siamese-self-supervised-learning">1.2 What is &ldquo;Siamese&rdquo; in Siamese Self-Supervised Learning?</h5>
+<p>A siamese network is composed of two branches: an online branch and a target branch, where the target branch shares weights with the online branch or keeps an exponential moving average of the online branch. In particular, given two different augmented views of the input image, each branch computes an augmented view, and the output of the target branch serves as the training target for the online branch. The loss maximizes the agreement between the two augmented views, i.e., we want our network to be invariant to image augmentation. We hope the online branch learns a generic representation transferrable to downstream tasks by optimizing this objective. It is important to note that these methods usually rely on heavy, hand-engineered data augmentation.</p>
+<h5 id="13-what-is-the-goal-of-self-supervised-learning">1.3 What is the goal of Self-Supervised Learning?</h5>
+<p>Self-Supervised Learning acts as a pre-text task where the goal is to learn a generic representation transferrable to downstream tasks. In contrast to previous methods that pre-train a network on annotated datasets, self-supervised learning methods do not require labels.</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->Note:<!-- raw HTML omitted --><!-- raw HTML omitted --> Although self-supervised learning techniques do not rely on labels, it relies on the highly curated ImageNet dataset, e.g., images usually contain a single object at the center.</p>
+<p>When transferring to downstream tasks, we use the online branch. For instance, those downstream tasks can be classification, object detection, or semantic segmentation. We evaluate the quality of the learned representation of the online network on annotated datasets, where we either fine-tune the network or train a classifier on top of frozen features. For fair comparisons, these methods use the ImageNet dataset and a randomly initialized ResNet50. A good representation makes the classes linearly separable.</p>
+<h5 id="14-key-concepts">1.4 Key Concepts</h5>
+<p>A trivial solution exists for these siamese networks, where the network outputs the same embedding for all images to minimize the loss. When the network learns this trivial solution, we call this <em>feature collapse</em>.</p>
+<p>We can roughly split current self-supervised methods into three frameworks, where each proposes different ways to prevent this collapse:</p>
+<ol>
+<li>Contrastive Learning methods (e.g., MoCo [3], SimCLR [2]) contrast positive samples with negative samples to prevent collapse. Specifically, the target branch outputs the representation of a positive sample and a set of negative samples, and the loss explicitly pulls the pair of positive samples together while pushing apart the pair of negative samples.</li>
+<li>Asymmetric networks (e.g., BOYL [5], SimSiam [4]) only rely on positive samples. They introduce an asymmetry between the target and the online branch to prevent collapse. In this case, the loss explicitly pulls together the positive sample pairs.</li>
+<li>Feature decorrelation methods (e.g., Barlow Twins [6]) prevent collapse by pushing the cross-correlation matrix of the two views close to the identity matrix. Optimizing this objective makes each feature invariant under data augmentation while reducing the redundancy between each feature.</li>
+</ol>
+
+
+		
+	</div>
+
+	<div class="pagination">
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			
+			<span>
+			&copy; <time datetime="2022-01-04 13:48:19.679138 &#43;0800 CST m=&#43;0.058003911">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+			
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx" crossorigin="anonymous"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+<script>
+     document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          
+          
+          delimiters: [
+                {left: '$', right: '$', display: false},
+                {left: "$$", right: "$$", display: true},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\begin{equation}", right: "\\end{equation}", display: true},
+                {left: "\\begin{align}", right: "\\end{align}", display: true},
+                {left: "\\begin{alignat}", right: "\\end{alignat}", display: true},
+                {left: "\\begin{gather}", right: "\\end{gather}", display: true},
+                {left: "\\begin{CD}", right: "\\end{CD}", display: true},
+                {left: "\\[", right: "\\]", display: true}
+            ],
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+          
+          throwOnError : false
+        });
+        var all=document.getElementsByClassName('katex'),i;
+for(i = 0; i < all.length; i += 1) {
+   var tmp=all[i].parentNode;
+   for(;tmp.nodeName=='SPAN';tmp=tmp.parentNode);
+   if(tmp.nodeName == 'CODE')
+   tmp.className += ' hasKatex';
+}
+    });
+</script>
+
+		</footer>
+
+    </body>
+</html>
