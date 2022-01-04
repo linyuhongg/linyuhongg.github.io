@@ -7,13 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 03 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://linyuhongg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Gradient Equivalence in Siamese Self-Supervised Learning</title>
+      <title></title>
       <link>https://linyuhongg.github.io/posts/self-supervised-learning/</link>
       <pubDate>Mon, 03 Jan 2022 00:00:00 +0000</pubDate>
       
       <guid>https://linyuhongg.github.io/posts/self-supervised-learning/</guid>
-      <description>Following [1], we derive the gradient of different siamese self-supervised learning methods and show that although these methods appear to be quite different, they have similar gradient formulas. In particular, the gradient consists of three terms:
- A positive gradient, i.e., the representation of another augmented view from the same image, pulls positive samples together. A negative gradient, i.e., a weighted combination of the representations from different images, pushes negative samples apart.</description>
+      <description>Gradient Equivalence in Siamese Self-Supervised Learning</description>
     </item>
     
   </channel>

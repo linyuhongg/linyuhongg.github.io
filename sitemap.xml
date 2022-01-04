@@ -2,14 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://linyuhongg.github.io/posts/self-supervised-learning/</loc>
+    <lastmod>2022-01-03T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://linyuhongg.github.io/</loc>
     <lastmod>2022-01-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://linyuhongg.github.io/posts/</loc>
     <lastmod>2022-01-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://linyuhongg.github.io/posts/self-supervised-learning/</loc>
-    <lastmod>2022-01-03T00:00:00+00:00</lastmod>
+    <loc>https://linyuhongg.github.io/about/about/</loc>
+  </url><url>
+    <loc>https://linyuhongg.github.io/about/</loc>
   </url><url>
     <loc>https://linyuhongg.github.io/categories/</loc>
   </url><url>
